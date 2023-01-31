@@ -3,6 +3,8 @@ const router = express.Router();
 const fs = require("fs");
 const randId = require('generate-unique-id');
 
+
+//router that handles get request. reads the json file in our db folder. then returns that the data into the page
 router.get("/", (req, res) => {
     fs.readFile("./db/db.json", "utf-8", (err, data) => {
       if (err) {
@@ -15,6 +17,11 @@ router.get("/", (req, res) => {
     });
 });
 
+
+//router that handles post request that takes in some data in the body of the post request.
+//it reads the db.json file and converts it into an array of objects. it then adds a new object into that array with the
+//information we got from the body of our post request. then we overwrite our db.json file with the added data.
+// we are also using a new npm packat that generates a random ID to add into this new object
 router.post("/", (req, res) => {
   fs.readFile("./db/db.json", "utf-8", (err, data) => {
     if (err) {
@@ -40,6 +47,12 @@ router.post("/", (req, res) => {
   });
 });
 
+
+//router that handles delete request that takes in a parameter of an ID corresponding to the note the user wants to delete
+//we read db.json file in our directory and parse it and change it into an object
+//we then use the filter method to find the ID that was passed in parameter to find it in the array of object. if it matches then the filter method
+// will not include it in the new array. 
+//it will then overwrite our db.json file with the new array of objects. 
 router.delete("/:id", (req, res) => {
   fs.readFile("./db/db.json", "utf-8", (err, data) => {
     if (err) {
